@@ -42,90 +42,50 @@
     <div class="container">
         <div class="rounded shadow p-5 bg-white">
             <div class="row">
-                <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
-                    <i class="ti-view-list text-primary h1"></i>
-                    <h3 class="mt-4 text-capitalize h5 "><a href="{{ route('home.index') }}">Data Dasar</a></h3>
-                    <p class="regular text-muted">Meliputi data dasar berdasarkan jenis kelamin, 
-                        misalnya jumlah penduduk, dan lain-lain.</p>
-                </div>
-                <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
-                    <i class="ti-folder text-primary h1"></i>
-                    <h3 class="mt-4 text-capitalize h5 "><a href="{{ route('home.index') }}">Data Terpilah</a></h3>
-                    <p class="regular text-muted">Meliputi data terpilah yang terdiri dari data 
-                        bidang-bidang, misalnya bidang pendidikan, dan lain-lain.</p>
-                </div>
-                <div class="col-lg-4 col-md-12 mt-5 mt-lg-0 text-center">
-                    <i class="ti-server text-primary h1"></i>
-                    <h3 class="mt-4 text-capitalize h5 "><a href="{{ route('home.index') }}">Data Kelembagaan</a></h3>
-                    <p class="regular text-muted">Meliputi data Kelembagaan Pengarusutamaan 
-                        Gender dan Pengarusutamaan Hak Anak.</p>
-                    </p>
-                </div>
+                @if($kabar)
+                    @foreach($kabar as $val)
+                        @php
+                            $url_image = $val['imgpath'] ? $val['imgpath'] : base_url().'assets/img/no-image.jpg';
+                        @endphp
+                        <div class="col-lg-4 col-md-6">
+                            <!-- Post -->
+                            <article class="post-sm">
+                                <!-- Post Image -->
+                                <div class="post-thumb">
+                                    <a href="{{ 'https://www.nganjukkab.go.id/home/detail-kabar/'.$val['slug'] }}">
+                                        <img class="w-100" src="{{ $url_image }}" alt="Post-Image">
+                                    </a>
+                                </div>
+                                <!-- Post Title -->
+                                <div class="post-title">
+                                    <h3>
+                                        <a href="{{ 'https://www.nganjukkab.go.id/home/detail-kabar/'.$val['slug'] }}">
+                                            {{ $val['judul'] }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <!-- Post Meta -->
+                                <div class="post-meta">
+                                    <ul class="list-inline post-tag">
+                                        <li class="list-inline-item">
+                                            <a href="#">{{ $val['nama'] }}</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            {{ $val['tanggal'] }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Post Details -->
+                                <div class="post-details">
+                                    <p>{{ substr(preg_replace("/\r?\n$/", "", strip_tags($val['isi'])), 0, 200) }} ....</p>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
 </section>
-
-
-
-<!--================================
-=            BERITA Title            =
-=================================-->
-
-<section class="section page-title">
-	<div class="container">
-		<div class="row">
-			<div class="heading-block col-sm-8 m-auto">
-				<!-- Page Title -->
-				<h2>SEPUTAR NGANJUK</h2>
-			</div>
-		</div>
-	</div>
-</section>
-<!--=================================
-    =            BERITA SIDANDA            =
-    ==================================-->
-    <section class="post-grid section pt-0">
-        <div class="container">
-            <div class="row">
-                <?php foreach($kabar as $val){ 
-                  if($val['imgpath']){
-                    $url_image = $val['imgpath'];
-                  } else {
-                    $url_image = base_url().'assets/img/no-image.jpg' ;
-                  }
-                  ?>
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post -->
-                    <article class="post-sm">
-                        <!-- Post Image -->
-                        <div class="post-thumb">
-                            <a href="<?= 'https://www.nganjukkab.go.id/home/detail-kabar/'.$val['slug'];?>"><img class="w-100" src="<?=  $url_image;?>" alt="Post-Image"></a>		
-                        </div>
-                        <!-- Post Title -->
-                        <div class="post-title">
-                            <h3><a href="<?= 'https://www.nganjukkab.go.id/home/detail-kabar/'.$val['slug'];?>"><?=  $val['judul'];?></a></h3>
-                        </div>
-                        <!-- Post Meta -->
-                        <div class="post-meta">
-                            <ul class="list-inline post-tag">
-                                <li class="list-inline-item">
-                                    <a href="#"><?=  $val['nama'];?></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <?=  $val['tanggal'];?>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Post Details -->
-                        <div class="post-details">
-                            <p><?= substr(preg_replace("/\r?\n$/", "", strip_tags($val['isi'])), 0, 200) ;?> ....</p>
-                        </div>
-                    </article>
-                </div>
-                <?php }?>               
-            </div>
-        </div>
-    </section>
 
 @endsection
